@@ -3,10 +3,11 @@ from importlib.metadata import files
 from lib2to3.pgen2 import token
 from urllib import response
 import requests
-from requests.structures import CaseInsensitiveDict
+
 
 
 URL = "https://gorest.co.in/public/v2/"
+
 GET_API = "posts"
 
 POST_API = "users"
@@ -83,4 +84,38 @@ def test_post_status_code_422():
     response = requests.post(url, headers=hed, data=data )
     assert response.status_code == 422, print (
         "Got wrong status code, expected is: {}, actual is {}".format("422", response.status_code))
-        
+
+def test_put_status_code_200():
+    url = construct_url(URL, POST_API)
+    data = {
+        "name":"hhhhhhh", 
+        "gender":"male",
+        "email":"artur@mail.ru",
+        "status":"active"
+        }
+
+    auth_token='ac47e01e02936cf24bd0bd97ffb92bbf47896f1f8178c05b57d1cb9e31dfa96a'
+    hed = {'Authorization': 'Bearer ' + auth_token}
+
+
+    response = requests.patch( url, headers=hed, data=data )
+    assert response.status_code == 200, print (
+        "Got wrong status code, expected is: {}, actual is {}".format("200", response.status_code))
+
+
+def test_delete_status_code_200():
+    url = construct_url(URL, GET_API1)
+    data = {
+        "name":"Artur Matasyan", 
+        "gender":"male",
+        "email":"artur@mail.ru",
+        "status":"active"
+        }
+
+    auth_token='ac47e01e02936cf24bd0bd97ffb92bbf47896f1f8178c05b57d1cb9e31dfa96a'
+    hed = {'Authorization': 'Bearer ' + auth_token}
+
+
+    response = requests.delete(url, headers=hed, data=data )
+    assert response.status_code == 200, print (
+        "Got wrong status code, expected is: {}, actual is {}".format("200", response.status_code))        
